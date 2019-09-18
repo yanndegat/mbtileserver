@@ -483,6 +483,7 @@ func (s *ServiceSet) Handler(ef func(error), publish bool) http.Handler {
 		p := "/services/" + id
 		m.Handle(p, wrapGetWithErrors(ef, hmacAuth(s.tileJSON(id, db, publish), s.secretKey, id)))
 		m.Handle(p+"/tiles/", wrapGetWithErrors(ef, hmacAuth(s.tiles(db), s.secretKey, id)))
+		m.Handle(p+"/staticmap/", wrapGetWithErrors(ef, hmacAuth(s.staticmap(db), s.secretKey, id)))
 		if publish {
 			m.Handle(p+"/map", wrapGetWithErrors(ef, hmacAuth(s.serviceHTML(id, db), s.secretKey, id)))
 		}
